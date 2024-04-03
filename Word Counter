@@ -1,33 +1,36 @@
-def word_counter(sentence):
+def count_words(text):
     """
-    Count the number of words in a given sentence.
-    
-    Args:
-    sentence (str): The input sentence to count words from.
-    
-    Returns:
-    int: The count of words in the input sentence.
+    Function to count the number of words in a given text.
     """
-    # Split the sentence into words
-    words = sentence.split()
-    
+    # Split the text into words based on spaces
+    words = text.split()
     # Return the count of words
     return len(words)
 
 def main():
-    # User-friendly interface for input
-    user_input = input("Enter a sentence: ")
+    """
+    Main function to prompt user input and display word count.
+    """
+    print("Welcome to the Word Counter program!")
+    while True:
+        # Prompt user to enter a sentence or paragraph
+        user_input = input("Please enter a sentence or paragraph (or type 'exit' to quit): ")
+        
+        # Check if the user wants to exit
+        if user_input.lower() == 'exit':
+            print("Thank you for using the Word Counter program. Goodbye!")
+            break
+        
+        # Check for empty input
+        if not user_input.strip():
+            print("Error: Please enter some text.")
+            continue
+        
+        # Call the count_words function to get the word count
+        word_count = count_words(user_input)
+        # Display the word count
+        print(f"The number of words in your text is: {word_count}")
 
-    # Check for empty input
-    if not user_input.strip():
-        print("Error: Please enter a non-empty sentence.")
-        return
-    
-    # Count the words in the input sentence
-    word_count = word_counter(user_input)
-
-    # Output the word count
-    print("Word count:", word_count)
-
+# Entry point of the program
 if _name_ == "_main_":
     main()
