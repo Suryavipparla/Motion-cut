@@ -1,0 +1,95 @@
+import datetime
+
+class Expense:
+    def __init__(self, date, category, amount):
+        self.date = date
+        self.category = category
+        self.amount = amount
+
+class ExpenseTracker:
+    def __init__(self):
+       
+        self.expenses = []
+
+    def add_expense(self, expense):
+        
+        self.expenses.append(expense)
+
+    def view_expenses(self):
+        
+        if self.expenses:
+            for idx, expense in enumerate(self.expenses, start=1):
+                print(f"{idx}. Date: {expense.date}, Category: {expense.category}, Amount: ${expense.amount}")
+        else:
+            print("No expenses recorded yet.")
+
+    def delete_expense(self, index):
+        # Delete expense from the list
+        if 0 < index <= len(self.expenses):
+            del self.expenses[index - 1]
+            print("Expense deleted successfully.")
+        else:
+            print("Invalid expense index.")
+
+    def view_expenses_by_category(self, category):
+        # Display expenses by category
+        category_expenses = [expense for expense in self.expenses if expense.category.lower() == category.lower()]
+        if category_expenses:
+            for idx, expense in enumerate(category_expenses, start=1):
+                print(f"{idx}. Date: {expense.date}, Amount: ${expense.amount}")
+        else:
+            print(f"No expenses found for category: {category}")
+
+    def view_expenses_by_date_range(self, start_date, end_date):
+        # Display expenses within a date range
+        try:
+            start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+            end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+        except ValueError:
+            print("Invalid date format. Please use YYYY-MM-DD.")
+            return
+        
+        filtered_expenses = [expense for expense in self.expenses if start_date <= datetime.datetime.strptime(expense.date, "%Y-%m-%d") <= end_date]
+        if filtered_expenses:
+            for idx, expense in enumerate(filtered_expenses, start=1):
+                print(f"{idx}. Date: {expense.date}, Category: {expense.category}, Amount: ${expense.amount}")
+        else:
+            print("No expenses found within the specified date range.")
+
+def main():
+    tracker = ExpenseTracker()
+    while True:
+        print("\nExpense Tracker Menu:")
+        print("1. Add Expense")
+        print("2. View Expenses")
+        print("3. Delete Expense")
+        print("4. View Expenses by Category")
+        print("5. View Expenses by Date Range")
+        print("6. Exit")
+        choice = input("Enter your choice: ")
+        if choice == '1':
+            date = input("Enter date (YYYY-MM-DD): ")
+            category = input("Enter category: ")
+            amount = float(input("Enter amount: "))
+            expense = Expense(date, category, amount)
+            tracker.add_expense(expense)
+        elif choice == '2':
+            tracker.view_expenses()
+        elif choice == '3':
+            idx = int(input("Enter the index of the expense to delete: "))
+            tracker.delete_expense(idx)
+        elif choice == '4':
+            category = input("Enter category to view expenses: ")
+            tracker.view_expenses_by_category(category)
+        elif choice == '5':
+            start_date = input("Enter start date (YYYY-MM-DD): ")
+            end_date = input("Enter end date (YYYY-MM-DD): ")
+            tracker.view_expenses_by_date_range(start_date, end_date)
+        elif choice == '6':
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice")
+
+if __name__ == "__main__":
+    main()
